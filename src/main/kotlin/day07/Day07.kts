@@ -31,7 +31,7 @@ sealed interface Filelike {
             }
             val fileMatch = filePattern.matchEntire(input)
             fileMatch?.destructured?.let { (size, name) ->
-                return File(name, size.toInt())
+                return FileObject(name, size.toInt())
             }
             return null
         }
@@ -41,7 +41,7 @@ sealed interface Filelike {
 
     fun find(predicate: (Filelike) -> Boolean): List<Filelike>
 
-    data class File(override val name: String, override val size: Int) : Filelike {
+    data class FileObject(override val name: String, override val size: Int) : Filelike {
 
         override fun find(predicate: (Filelike) -> Boolean): List<Filelike> =
             if (predicate(this)) listOf(this) else emptyList()
