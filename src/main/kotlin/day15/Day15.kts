@@ -20,7 +20,6 @@ val allSensorsAndBeacons = sensorsAndBeacons
 
 // Part 1
 fun part1() {
-//    val checkY = 10
     val checkY = 2_000_000 // 10 for sample
 
     val relevantSensorsAndBeacons = sensorsAndBeacons
@@ -49,18 +48,11 @@ fun part1() {
 }
 
 fun part2() {
-    // maybe: row-by-row, check each X... find nearest beacon, skip just out of its exclusion zone
-//    val maxCheck = 20
     val maxCheck = 4_000_000 // 20 for sample
     for (y in (0 .. maxCheck)) {
         var x = 0
         while (x < maxCheck) {
-            // find nearest sensor + beacon
-//            val (nearestSensor, nearestBeacon) = sensorsAndBeacons.minBy { (sensor, beacon) ->
-//                (x to y).manhattanDist(sensor)
-//            }
             val furthestCoveringSensor = sensorsAndBeacons
-                //.sortedByDescending { (sensor, beacon) -> (x to y).manhattanDist(sensor) }
                 .firstOrNull {(sensor, beacon) ->
                     val hereDist = (x to y).manhattanDist(sensor)
                     val sensorBeaconDist = sensor.manhattanDist(beacon)
@@ -68,10 +60,8 @@ fun part2() {
                 }
             if (furthestCoveringSensor == null) {
                 // no sensor covered us
-                println("$x, $y")
-                println(x * 4_000_000 + y) // not 1700577764
-                x += 1
-                break
+                println(x.toLong() * 4_000_000L + y)
+                return
             }
             val (coveringSensor, nearestBeacon) = furthestCoveringSensor
             val sensorBeaconDist = coveringSensor.manhattanDist(nearestBeacon)
@@ -82,7 +72,6 @@ fun part2() {
         }
     }
 }
-
 
 part1()
 part2()
